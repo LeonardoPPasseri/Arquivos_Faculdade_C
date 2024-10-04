@@ -17,13 +17,17 @@ int main(int argc, char** argv){
     }
 
     entrada = fopen(argv[1],"rb");
-    //entrada recebe o arquivo que será aberto e (um nome?)
+    //entrada recebe o arquivo que será aberto e um modo
     if(entrada == NULL){ //!entrada 
         //Se a entrada for igual a null quer dizer que não foi possivel ler o arquivo.
         fprintf(stderr,"Arquivo %s não pode ser aberto para leitura\n", argv[1]);
         return 1;
     }
-
+    //MODOs
+    //“rb” : abre um arquivo para leitura
+    //“wb” : cria um arquivo para escrita (deleta e cria um novo arquivo se ele já existir)
+    //Modos de aberturas de arquivo em formato binário 
+    
     saida = fopen(argv[2],"wb");
     if(saida == NULL){
         fclose(entrada);//Importante fechar a entrada, pois não será usada caso ocorra essa exceção de saida
