@@ -1,9 +1,10 @@
 #include <stdio.h>
 #define TAMANHO 8192
+//PQ 8192? Lida-se melhor com blocos de caracteres do que byte a byte 
 
 int main(int argc, char** argv){
     FILE *entrada,*saida;
-    char buffer[TAMANHO];
+    char buffer[TAMANHO]; //Array de char com 8192 espaços
     int qtd;
 
     if(argc != 3){
@@ -24,9 +25,19 @@ int main(int argc, char** argv){
     }
 
     qtd = fread(buffer,sizeof(char),TAMANHO,entrada);
-    while(qtd > 0){
-        fwrite(buffer,sizeof(char),qtd,saida);
+    //qtd recebe a quantidade de caracteres que foram armazenados no buffer
+    /*
+    buffer -> array para armazenamento do bloco
+    sizeof(char) -> tamanho de cada caracter
+    TAMANHO -> tamanho maximo do buffer
+    entrada -> arquivo de leitura)
+    */
+    while(qtd > 0){ //enquanto houver caracteres para armazenar 
+        fwrite(buffer,sizeof(char),qtd,saida); 
+        //Escreve o bloco de caracteres que está no buffer no arquivo de saida
         qtd = fread(buffer,sizeof(char),TAMANHO,entrada);
+        //A "cabeça" é movida para depois do ultimo caracter do bloco
+        //qtd recebe a quantidade de caracter que faltam ou que completa o buffer
     }
 
     fclose(entrada);
