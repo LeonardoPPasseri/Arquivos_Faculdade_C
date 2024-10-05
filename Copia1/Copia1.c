@@ -1,5 +1,11 @@
 #include <stdio.h>
 // stdout, stdin, stderr
+/*
+O padrão de entrada, o padrão de saída e o padrão de erros são manipulados 
+por meio dos ponteiros de arquivos stdin, stdout e stderr.
+stdin -> standard input -> entrada padrão
+
+*/
 int main(int argc, char** argv){
     //argc -> quantidade de dados(Nome do arquivo, ponteiro de entrada, ponteiro de saida)
     //char** argv -> Ponteiro para um array de char que pode ser o nome,entrada ou saida -> [0,1,2]
@@ -10,7 +16,7 @@ int main(int argc, char** argv){
     int c;
 
     if(argc != 3){ //Se argc for diferente de 3, quer dizer que está faltando dados para fazer a copia 
-    //Esse if serve como saida de exceção
+    //Esse if serve como fluxo de exceção
         fprintf(stderr,"Erro na chamada do comando.\n");
         fprintf(stderr,"Uso: %s [ARQUIVO ORIGEM] [ARQUIVO DESTINO].\n", argv[0]);
         return 1;
@@ -57,7 +63,7 @@ int main(int argc, char** argv){
     ======
     while(true)
     saida => "abc"
-    "Cabeça de leitura => ''"
+    "Cabeça de leitura => Marcador EOF
     c = EOF
     ======
     while(false)
