@@ -8,3 +8,23 @@ int main(){
     
     return 0;
 }
+
+/*
+#include <stdio.h>
+
+int main(){
+    
+}
+a)
+b)
+c)
+d)
+e)
+f)
+g)
+h)
+i)
+j)
+k)
+l)
+*/
