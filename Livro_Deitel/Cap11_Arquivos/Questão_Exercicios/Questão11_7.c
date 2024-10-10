@@ -14,44 +14,61 @@ int main(){
     float saldoAtual;
     char nome[30];
     float quantiaReais;
-    int encontrado = NULL;
+    int encontrado;
 
     FILE *ofPtr;
     FILE *tfPtr;
     FILE *nfPtr;
+    FILE *auxfPtr; //Arquivo que será usado para colocar as contas alteradas e não alteradas
 
-    if((ofPtr = fopen("oldmast.dat", "r+")) == NULL || (tfPtr = fopen("trans.dat", "r")) == NULL || (nfPtr = fopen("newmast.dat", "w")) == NULL){
-        printf("Um dos arquivos não pode ser aberto");
+    if ((ofPtr = fopen("C:\\ArquivoJAVAExemplos\\Arquivos\\oldmast.txt", "r")) == NULL ||
+        (tfPtr = fopen("C:\\ArquivoJAVAExemplos\\Arquivos\\trans.txt", "r")) == NULL ||
+        (nfPtr = fopen("C:\\ArquivoJAVAExemplos\\Arquivos\\newmast.txt", "w+")) == NULL ||
+        (auxfPtr = fopen("C:\\ArquivoJAVAExemplos\\Arquivos\\auxmast.txt", "w+")) == NULL) {
+        printf("Um dos arquivos não pode ser aberto\n");
         return 1;
-    }else{
-        //Preciso comparar o numConta do trans.dat com o numConta do oldmast.dat e se houver iguais, o saldoAtual deve ser somado ao valor do oldmast.saldoAtual
-        while(!oef(tfPtr)){
-            fscanf(tfPtr, "%d%f", &numConta, &quantiaReais) ;
-            float transConta = numConta;
-            while(!oef(ofPtr)){
-                fscanf(ofPtr, "%d%s%f", &numConta, nome, &saldoAtual); 
+    }else{    
+        while(fscanf(tfPtr, "%d %f", &numConta, &quantiaReais) != EOF){
+            int transConta = numConta;
+            while(fscanf(ofPtr, "%d %s %f", &numConta, nome, &saldoAtual) != EOF){
                 if(transConta == numConta){
                     encontrado = 1;
                     saldoAtual += quantiaReais;
+                    fprintf(auxfPtr, "%d %s %.2f\n", numConta, nome, saldoAtual);
                     break;
                 }
             }
             if(!encontrado){
-                printf("Nao ha correspondência entre o registro de transação e o numeroda conta %f", transConta);
+                printf("Nao ha correspondência entre o registro de transação e o numeroda conta %d", transConta);
             }
             rewind(ofPtr);
-            fprintf(ofPtr, "%d%s%f", &numConta, nome, &saldoAtual);
         }
-        fscanf(ofPtr, "%d%s%f", &numConta, nome, &saldoAtual);
-        while(!ofPtr){
-            fscanf(ofPtr, "%d%s%f", &numConta, nome, &saldoAtual);
-            fprintf(nfPtr, "%d%s%.2f", numConta, nome, saldoAtual);
+        rewind(ofPtr);
+        rewind(auxfPtr);
+        int numConta2;
+        float saldoAtual2;
+        char nome2[30];
+        while(fscanf(ofPtr, "%d %s %f", &numConta2, nome2, &saldoAtual2) != EOF){
+            int ofnumConta = numConta2;
+            encontrado = 0;
+            while(fscanf(auxfPtr, "%d %s %f", &numConta, nome, &saldoAtual) != EOF){
+                if(ofnumConta == numConta){
+                    encontrado = 2;
+                    break;
+                }
+            }
+            if(encontrado != 2){
+                fprintf(auxfPtr, "%d %s %.2f\n", numConta2, nome2, saldoAtual2);
+            }
+
+            rewind(auxfPtr);
         }
     }
-
+    printf("fim do programa");
     fclose(ofPtr);
     fclose(tfPtr);
     fclose(nfPtr);
+    fclose(auxfPtr);
 
     return 0;
 }
