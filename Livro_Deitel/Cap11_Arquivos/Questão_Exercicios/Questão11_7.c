@@ -24,12 +24,13 @@ int main(){
     if ((ofPtr = fopen("C:\\ArquivoJAVAExemplos\\Arquivos\\oldmast.txt", "r")) == NULL ||
         (tfPtr = fopen("C:\\ArquivoJAVAExemplos\\Arquivos\\trans.txt", "r")) == NULL ||
         (nfPtr = fopen("C:\\ArquivoJAVAExemplos\\Arquivos\\newmast.txt", "w+")) == NULL ||
-        (auxfPtr = fopen("C:\\ArquivoJAVAExemplos\\Arquivos\\auxmast.txt", "w+")) == NULL) {
+        (auxfPtr = fopen("auxmast", "w+")) == NULL) {
         printf("Um dos arquivos não pode ser aberto\n");
         return 1;
     }else{    
         while(fscanf(tfPtr, "%d %f", &numConta, &quantiaReais) != EOF){
             int transConta = numConta;
+            encontrado = 0;
             while(fscanf(ofPtr, "%d %s %f", &numConta, nome, &saldoAtual) != EOF){
                 if(transConta == numConta){
                     encontrado = 1;
@@ -39,7 +40,7 @@ int main(){
                 }
             }
             if(!encontrado){
-                printf("Nao ha correspondência entre o registro de transação e o numeroda conta %d", transConta);
+                printf("\nNao ha correspondencia entre o registro de transacao e o numero da conta %d\n", transConta);
             }
             rewind(ofPtr);
         }
