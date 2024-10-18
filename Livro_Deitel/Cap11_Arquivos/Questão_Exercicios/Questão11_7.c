@@ -18,13 +18,11 @@ int main(){
 
     FILE *ofPtr;
     FILE *tfPtr;
-    FILE *nfPtr;
-    FILE *auxfPtr; //Arquivo que será usado para colocar as contas alteradas e não alteradas
+    FILE *nfPtr; 
 
-    if ((ofPtr = fopen("C:\\ArquivoJAVAExemplos\\Arquivos\\oldmast.txt", "r")) == NULL ||
-        (tfPtr = fopen("C:\\ArquivoJAVAExemplos\\Arquivos\\trans.txt", "r")) == NULL ||
-        (nfPtr = fopen("C:\\ArquivoJAVAExemplos\\Arquivos\\newmast.txt", "w+")) == NULL ||
-        (auxfPtr = fopen("auxmast", "w+")) == NULL) {
+    if ((ofPtr = fopen("oldmast.dat", "r")) == NULL ||
+        (tfPtr = fopen("trans.dat", "r")) == NULL ||
+        (nfPtr = fopen("newmast.dat", "w+")) == NULL){
         printf("Um dos arquivos não pode ser aberto\n");
         return 1;
     }else{    
@@ -35,7 +33,7 @@ int main(){
                 if(transConta == numConta){
                     encontrado = 1;
                     saldoAtual += quantiaReais;
-                    fprintf(auxfPtr, "%d %s %.2f\n", numConta, nome, saldoAtual);
+                    fprintf(nfPtr, "%d %s %.2f\n", numConta, nome, saldoAtual);
                     break;
                 }
             }
@@ -45,31 +43,31 @@ int main(){
             rewind(ofPtr);
         }
         rewind(ofPtr);
-        rewind(auxfPtr);
+        rewind(nfPtr);
         int numConta2;
         float saldoAtual2;
         char nome2[30];
         while(fscanf(ofPtr, "%d %s %f", &numConta2, nome2, &saldoAtual2) != EOF){
             int ofnumConta = numConta2;
             encontrado = 0;
-            while(fscanf(auxfPtr, "%d %s %f", &numConta, nome, &saldoAtual) != EOF){
+            while(fscanf(nfPtr, "%d %s %f", &numConta, nome, &saldoAtual) != EOF){
                 if(ofnumConta == numConta){
                     encontrado = 2;
                     break;
                 }
             }
             if(encontrado != 2){
-                fprintf(auxfPtr, "%d %s %.2f\n", numConta2, nome2, saldoAtual2);
+                fprintf(nfPtr, "%d %s %.2f\n", numConta2, nome2, saldoAtual2);
             }
 
-            rewind(auxfPtr);
+            rewind(nfPtr);
         }
     }
     printf("fim do programa");
     fclose(ofPtr);
     fclose(tfPtr);
     fclose(nfPtr);
-    fclose(auxfPtr);
+    fclose(nfPtr);
 
     return 0;
 }

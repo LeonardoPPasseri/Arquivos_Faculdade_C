@@ -7,7 +7,7 @@ int main() {
     FILE *cfPtr;
     //Programa vai criar um arquivo ou rescrever um existente
 
-    if ((cfPtr = fopen("C:\\ArquivoJAVAExemplos\\TextoExemplo2.txt", "w")) == NULL) {
+    if ((cfPtr = fopen("TextoExemplo2.dat", "w")) == NULL) {
         printf("Arquivo nao pode ser aberto\n");
     } else {
         printf("Digite a conta, o nome e o saldo.\n");
