@@ -2,7 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
+/*
+Leonardo Pinto Passeri
+João Marcelo
+*/
 typedef struct _Produto Produto;
 
 struct _Produto
