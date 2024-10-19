@@ -25,6 +25,7 @@ void buscarPorDescricao(FILE *entrada);
 
 int main()
 {
+    srand(time(NULL));
     printf("----Controle de Estoque----\n\n");
     FILE *entrada;
     int saida;
@@ -50,7 +51,8 @@ int menu(FILE *entrada)
     printf("1- Incluir produto\n2- Registrar venda\n3- Buscar por codigo\n4- Buscar por descricao\n5- Relatorio de produto com estoque abaixo do minimo\n6- sair\n");
     printf("Escolha uma opcao: \n");
     scanf("%d", &opcao);
-
+    fflush(stdin);
+    
     switch (opcao)
     {
     case 1:
@@ -72,7 +74,7 @@ int menu(FILE *entrada)
         return 1;
 
     default:
-        printf("opcao invalida");
+        printf("opcao invalida\n");
         break;
     }
     return 0;
@@ -89,7 +91,8 @@ void incluirProduto(FILE *entrada)
     strcpy(produto.descricao, descricaoCompleta);
     fseek(entrada, 0, SEEK_END);
     fwrite(&produto, sizeof(Produto), 1, entrada);
-    printf("Produto incluido!\n");
+
+    printf("Produto [%s %d %d %.2f] incluido!\n", produto.descricao, produto.quantidadeEstoque, produto.minimoEstoque, produto.precoVenda);
 }
 
 void registrarVenda(FILE *entrada)
