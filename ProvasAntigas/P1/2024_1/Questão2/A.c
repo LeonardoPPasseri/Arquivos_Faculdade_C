@@ -5,15 +5,12 @@ int main()
 {
     char bloco[3] = {'\0'};
     FILE *f = fopen("letras.dat", "rb+");
-    // \0\0\0
-    fseek(f, -2, SEEK_END);// \0 primeiro
-    fread(bloco, sizeof(char), 3, f); //\0\0\0
+    fseek(f, -2, SEEK_END);
+    fread(bloco, sizeof(char), 3, f); 
     printf("(a) %3.3s %ld %d\n", bloco, ftell(f), feof(f));
-    // (a) \0\0 4 true
-    fseek(f, -3, SEEK_END);// \0\0\0
-    fread(bloco, sizeof(char), 3, f);// \0\0\0
+    fseek(f, -3, SEEK_END);
+    fread(bloco, sizeof(char), 3, f);
     printf("(b) %3.3s %ld %d\n", bloco, ftell(f), feof(f));
-    // (b) \0\0\0 4 true
     fseek(f, 10, SEEK_SET);
     fread(bloco, sizeof(char), 3, f);
     printf("(c) %3.3s %ld %d\n", bloco, ftell(f), feof(f));
