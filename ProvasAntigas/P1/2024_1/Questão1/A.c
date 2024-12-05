@@ -11,34 +11,41 @@ struct _Produto
 };
 
 void cria_arquivo(FILE *entrada){
-    Produto produto;
-    strcpy(produto.descricao, "");
-    produto.descricao[20] = '\0';
-    produto.custo = 0;
-    produto.quantidade = 0;
+    Produto produto_vazio = {"",0,0.0};
     for (int i = 0; i < 100; i++){
-        fwrite(&produto,sizeof(Produto),1,entrada);
+        fwrite(&produto_vazio,sizeof(Produto),1,entrada);
     }   
 }
 
-//3 Furadeira 7 58.84
+//Furadeira 7 58.84
 void insere_Registro(FILE *entrada){
     Produto produto;
     Produto produto2;
     int registro = 0;
-    printf("Digite o registro, a descricao, quantidade e custo: \n");
-    scanf("%d %s %d %f", &registro, produto.descricao, &produto.quantidade, &produto.custo); // Lê o registro primeiro
-    fseek(entrada, sizeof(Produto) * (registro - 1), SEEK_SET); // Ajusta o cálculo do offset
-    fread(&produto2, sizeof(Produto), 1, entrada);
-    
-    produto.descricao[19] = '\0';
-    if (strcmp(produto2.descricao, "") == 0) { // Verifica se o registro está vazio
-        fseek(entrada, sizeof(Produto) * (registro - 1), SEEK_SET);
-        fwrite(&produto, sizeof(Produto), 1, entrada);
-        printf("Registro inserido com sucesso!\n");
-    } else {
-        printf("Registro já adicionado!\n");
+
+    fseek(entrada,sizeof(Produto),SEEK_SET);
+    fread(&produto2,sizeof(Produto),1,entrada);
+    char buffer[3];
+    while(!feof(entrada)){
+        if(strcmp(produto2.descricao, "") == 0){
+            printf("Digite a descricao, quantidade e custo: \n");
+            registro = ftell(entrada);
+            scanf("%s %d %f" ,produto.descricao, &produto.quantidade, &produto.custo);
+            produto.descricao[20] = '\0';
+            fseek(entrada, -1, SEEK_CUR);
+           
+            sprintf(registro, "%d");
+            strcat(buffer, produto.descricao);
+            
+            fwrite(&produto, sizeof(Produto), 1, entrada);
+            fseek(entrada, sizeof(Produto) * (registro - 1), SEEK_SET);
+            printf("Registro inserido com sucesso!\n");
+        }
     }
+    
+
+   
+    
 }
 
 void lista_Registro(FILE *entrada){
